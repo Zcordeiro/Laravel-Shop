@@ -189,70 +189,56 @@
         </div>
     </div>
 
-    	 
-<!-- Alternatively if you want to just have a single hero -->
+<table id="cart" class="table table-hover table-condensed">
+                <thead>
+                    <tr>
+                        <th style="width:50%">Product</th>
+                        <th style="width:10%">Price</th>
+                        <th style="width:8%">Quantity</th>
+                        <th style="width:22%" class="text-center">Subtotal</th>
+                        <th style="width:10%"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @php $total = 0 @endphp
+                    @if(session('cart'))
+                        @foreach(session('cart') as $id => $details)
+                            @php $total += $details['price'] * $details['quantity'] @endphp
+                            <tr data-id="{{ $id }}">
+                                <td data-th="Product">
+                                    <div class="row">
+                                        <div class="col-sm-3 hidden-xs"><img src="{{ url('img/'.$details['image']) }}" width="100" height="100" class="img-responsive"/></div>
+                                        <div class="col-sm-9">
+                                            <h4 class="nomargin">{{ $details['name'] }}</h4>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td data-th="Price">${{ $details['price'] }}</td>
+                                <td data-th="Quantity">
+                                    <input type="number" value="{{ $details['quantity'] }}" class="form-control quantity update-cart" />
+                                </td>
+                                <td data-th="Subtotal" class="text-center">${{ $details['price'] * $details['quantity'] }}</td>
+                                <td class="actions" data-th="">
+                                    <button class="btn btn-danger btn-sm remove-from-cart"><i class="fa fa-trash-o"></i></button>
+                                </td>
+                            </tr>
+                        @endforeach
+                    @endif
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="5" class="text-right"><h3><strong>Total ${{ $total }}</strong></h3></td>
+                    </tr>
+                    <tr>
+                        <td colspan="5" class="text-right">
+                            <a href="{{ url('/') }}" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a>
+                            <button class="btn btn-success">Checkout</button>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
 
-<!-- <section class="w-full mx-auto bg-nordic-gray-light flex pt-12 md:pt-0 md:items-center bg-cover bg-right" style="max-width:1600px; height: 32rem; background-image: url('https://images.unsplash.com/photo-1422190441165-ec2956dc9ecc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1600&q=80');">
-	<div class="container mx-auto">
-		<div class="flex flex-col w-full lg:w-1/2 justify-center items-start  px-6 tracking-wide">
-			<h1 class="text-black text-2xl my-4">Stripy Zig Zag Jigsaw Pillow and Duvet Set</h1>
-			<a class="text-xl inline-block no-underline border-b border-gray-600 leading-relaxed hover:text-black hover:border-black" href="#">products</a>
-		</div>
-	  </div>
-</section> -->
 
-
-    <section class="bg-white py-8">
-
-        <div class="container mx-auto flex items-center flex-wrap pt-4 pb-12">
-
-            <nav id="store" class="w-full z-30 top-0 px-6 py-1">
-                <div class="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 px-2 py-3">
-
-                    <a class="uppercase tracking-wide no-underline hover:no-underline font-bold text-gray-800 text-xl " href="#">
-				Store
-			</a>
-
-                    <div class="flex items-center" id="store-nav-content">
-
-                        <a class="pl-3 inline-block no-underline hover:text-black" href="#">
-                            <svg class="fill-current hover:text-black" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                                <path d="M7 11H17V13H7zM4 7H20V9H4zM10 15H14V17H10z" />
-                            </svg>
-                        </a>
-
-                        <a class="pl-3 inline-block no-underline hover:text-black" href="#">
-                            <svg class="fill-current hover:text-black" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                                <path d="M10,18c1.846,0,3.543-0.635,4.897-1.688l4.396,4.396l1.414-1.414l-4.396-4.396C17.365,13.543,18,11.846,18,10 c0-4.411-3.589-8-8-8s-8,3.589-8,8S5.589,18,10,18z M10,4c3.309,0,6,2.691,6,6s-2.691,6-6,6s-6-2.691-6-6S6.691,4,10,4z" />
-                            </svg>
-                        </a>
-
-                    </div>
-              </div>
-            </nav>
-
-            @if(session('success'))
-<div class="alert alert-success">
-{{ session('success') }}
-</div>
-@endif
-
-            @foreach (@$products as $p)
-            <div class="w-full md:w-1/3 xl:w-1/4 p-6 flex flex-col">
-                <a href="#">
-                    <img class="hover:grow hover:shadow-lg" src="{{ $p->image }}">
-                    <div class="pt-3 flex items-center justify-between">
-                        <p class="">{{ $p->name }}</p>
-                        <a class="border-2 border-black" href="{{ url('/cart/add/'.$p->id)}}">Add To Cart</a>
-                    </div>
-                    <p class="pt-1 text-gray-900">${{ $p->price }}</p>
-                </a>
-            </div>
-            @endforeach
-
-            </div>
-
-    </section>
 
 
 </body>
